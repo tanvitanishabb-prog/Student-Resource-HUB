@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Upload | Student Resource Hub</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="upload">
+  <header class="site-header"><nav id="nav" class="nav"></nav></header>
+  <main class="wrap">
+    <section class="card narrow">
+      <h1>Upload a resource</h1>
+      <form id="uploadForm" class="form">
+        <label>Title <input type="text" name="title" maxlength="150" required></label>
+        <label>Subject <input type="text" name="subject" maxlength="100" placeholder="e.g. Marketing" required></label>
+        <label>Description <textarea name="description" rows="3"></textarea></label>
+        <label>PDF file (max 10 MB) <input type="file" name="file" accept="application/pdf,.pdf" required></label>
+        <button type="submit" class="btn">Upload</button>
+        <p id="msg" class="msg" role="status"></p>
+      </form>
+    </section>
+  </main>
+  <script src="js/script.js"></script>
+</body>
+</html>

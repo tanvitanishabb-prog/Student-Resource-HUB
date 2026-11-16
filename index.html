@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home | Student Resource Hub</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="home">
+  <header class="site-header"><nav id="nav" class="nav"></nav></header>
+  <main class="wrap">
+    <section class="hero">
+      <h1>Notes your classmates already wrote.</h1>
+      <p class="lead">Search PDF notes, past papers and summaries shared by students. Upload your own once an admin approves it, everyone can use it.</p>
+      <form id="heroSearch" class="search-row">
+        <input type="search" name="q" placeholder="Search by subject or title, e.g. Marketing" aria-label="Search resources">
+        <button type="submit" class="btn">Search</button>
+      </form>
+      <div id="stats" class="stats"></div>
+    </section>
+
+    <section>
+      <h2>Recently shared</h2>
+      <div id="recent" class="grid"></div>
+    </section>
+
+    <section class="steps">
+      <div><h3>Register</h3><p>Create a free student account.</p></div>
+      <div><h3>Upload</h3><p>Share a PDF with a title and subject.</p></div>
+      <div><h3>Get it approved</h3><p>An admin checks it before it goes live.</p></div>
+      <div><h3>Download</h3><p>Anyone logged in can download approved notes.</p></div>
+    </section>
+  </main>
+  <script src="js/script.js"></script>
+</body>
+</html>

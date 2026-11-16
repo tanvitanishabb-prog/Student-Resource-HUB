@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resources | Student Resource Hub</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="resources">
+  <header class="site-header"><nav id="nav" class="nav"></nav></header>
+  <main class="wrap">
+    <h1>Resource library</h1>
+    <form id="searchForm" class="search-row">
+      <input type="search" name="q" placeholder="Search title, subject or description" aria-label="Search resources">
+      <select name="subject" aria-label="Filter by subject"><option value="">All subjects</option></select>
+      <button type="submit" class="btn">Search</button>
+    </form>
+    <p id="count" class="hint"></p>
+    <div id="list" class="grid"></div>
+  </main>
+  <script src="js/script.js"></script>
+</body>
+</html>
