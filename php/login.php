@@ -1,19 +1,6 @@
 <?php
 require __DIR__ . '/db.php';
 
-$action = $_GET['action'] ?? 'login';
-
-if ($action === 'session') {
-    respond(['ok' => true, 'user' => $_SESSION['user'] ?? null]);
-}
-
-if ($action === 'logout') {
-    $_SESSION = [];
-    session_destroy();
-    respond(['ok' => true]);
-}
-
-// ---- login ----
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond(['ok' => false, 'message' => 'Invalid request.'], 405);
 }
