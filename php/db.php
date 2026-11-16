@@ -17,42 +17,22 @@ function require_login() {
 
 function require_admin() {
     $user = require_login();
-
     if ($user['role'] !== 'admin') {
         respond(['ok' => false, 'message' => 'Admins only.'], 403);
     }
-
     return $user;
 }
 
-// Railway MySQL Connection
 try {
-    $host = getenv('MYSQLHOST');
-    $port = getenv('MYSQLPORT') ?: '3306';
-    $dbname = getenv('MYSQLDATABASE');
-    $username = getenv('MYSQLUSER');
-    $password = getenv('MYSQLPASSWORD');
-
-    if (!$host || !$dbname || !$username) {
-        throw new Exception('Database environment variables are missing.');
-    }
-
     $pdo = new PDO(
-        "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4",
-        $username,
-        $password,
+        'mysql:host=127.0.0.1;dbname=student_hub;charset=utf8mb4',
+        'hub_user',
+        'hub_pass_123',
         [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         ]
     );
-
-} catch (Throwable $e) {
-    error_log('Database error: ' . $e->getMessage());
-
-    respond([
-        'ok' => false,
-        'message' => 'Database connection failed.'
-    ], 500);
+} catch (PDOException $e) {
+    respond(['ok' => false, 'message' => 'Database connection failed. Is MySQL running?'], 500);
 }
-?>
