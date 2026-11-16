@@ -26,22 +26,16 @@ function require_admin() {
 }
 
 // Railway MySQL Connection
-// Railway MySQL Connection
 try {
+    $host = getenv('MYSQLHOST');
+    $port = getenv('MYSQLPORT') ?: '3306';
+    $dbname = getenv('MYSQLDATABASE');
+    $username = getenv('MYSQLUSER');
+    $password = getenv('MYSQLPASSWORD');
 
-    $databaseUrl = getenv('DATABASE_URL');
-
-    if (!$databaseUrl) {
-        throw new Exception('DATABASE_URL is missing.');
+    if (!$host || !$dbname || !$username) {
+        throw new Exception('Database environment variables are missing.');
     }
-
-    $db = parse_url($databaseUrl);
-
-    $host = $db['host'];
-    $port = $db['port'] ?? 3306;
-    $username = urldecode($db['user']);
-    $password = urldecode($db['pass']);
-    $dbname = ltrim($db['path'], '/');
 
     $pdo = new PDO(
         "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4",
@@ -54,7 +48,6 @@ try {
     );
 
 } catch (Throwable $e) {
-
     error_log('Database error: ' . $e->getMessage());
 
     respond([
