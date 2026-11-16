@@ -16,4 +16,4 @@ Open http://localhost:8000
 
 Register first, then:
 
-    mysql -u root student_hub -e "UPDATE users SET role='admin' WHERE email='YOUR_EMAIL';"
+    mysql -u root student_hub -e "UPDATE users SET role='admin' WHERE email='YOUR_EMAIL';"# Student-Resource-HUB
