@@ -49,6 +49,13 @@ function renderNav(user) {
 }
 
 // ---------- resource cards ----------
+// Same subject always gets the same colour
+function subjectHue(subject) {
+  let h = 0;
+  for (const ch of String(subject)) h = (h * 31 + ch.charCodeAt(0)) % 360;
+  return h;
+}
+
 function resourceCard(r, user, { showStatus = false, admin = false } = {}) {
   const date = String(r.created_at).slice(0, 10);
   let actions = '';
@@ -61,7 +68,7 @@ function resourceCard(r, user, { showStatus = false, admin = false } = {}) {
     actions = `<a class="btn secondary" href="login.html">Log in to download</a>`;
   }
   return `
-    <article class="res">
+    <article class="res" style="--h:${subjectHue(r.subject)}">
       <span class="tag">${esc(r.subject)}</span>
       <h3>${esc(r.title)}</h3>
       ${r.description ? `<p>${esc(r.description)}</p>` : ''}
@@ -72,12 +79,25 @@ function resourceCard(r, user, { showStatus = false, admin = false } = {}) {
 }
 
 // ---------- page logic ----------
-function initHome() {
+async function initHome(user) {
   $('#heroSearch').addEventListener('submit', (e) => {
     e.preventDefault();
     const q = new FormData(e.target).get('q');
     window.location.href = 'resources.html?q=' + encodeURIComponent(q || '');
   });
+
+  // Live numbers and newest notes from MySQL
+  const data = await api('php/upload.php?action=list');
+  if (!data.ok) return;
+
+  $('#stats').innerHTML =
+    `<span><strong>${data.resources.length}</strong> notes shared</span>
+     <span><strong>${data.subjects.length}</strong> subjects</span>`;
+
+  const recent = data.resources.slice(0, 3);
+  $('#recent').innerHTML = recent.length
+    ? recent.map((r) => resourceCard(r, user)).join('')
+    : '<p class="empty">Nothing has been shared yet. Be the first to <a href="upload.html">upload a PDF</a>.</p>';
 }
 
 function initRegister() {
@@ -170,10 +190,17 @@ async function initDashboard(user) {
 }
 
 // ---------- start ----------
+// ---------- start ----------
 document.addEventListener('DOMContentLoaded', async () => {
   const session = await api('php/login.php?action=session');
   const user = session.user || null;
   renderNav(user);
+
+  // Footer on every page
+  const footer = document.createElement('footer');
+  footer.className = 'site-footer';
+  footer.textContent = 'Student Resource Hub - built with HTML, CSS, JavaScript, PHP and MySQL';
+  document.body.appendChild(footer);
 
   const page = document.body.dataset.page;
   if (['dashboard', 'upload'].includes(page) && !user) {
@@ -181,7 +208,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  if (page === 'home') initHome();
+  if (page === 'home') initHome(user);
   if (page === 'register') initRegister();
   if (page === 'login') initLogin();
   if (page === 'upload') initUpload();
